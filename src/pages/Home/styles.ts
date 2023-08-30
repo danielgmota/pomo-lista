@@ -75,6 +75,7 @@ export const StartCoundownButton = styled.button`
   &:not(disable):disabled {
     opacity: 0.7;
     cursor: not-allowed;
+  }
 `;
 
 const BaseInput = styled.input`
@@ -93,7 +94,8 @@ const BaseInput = styled.input`
 
   &:focus {
     box-shadow: none;
-    border-color: ${(props) => props.theme["gray-500"]}
+    border-color: ${(props) => props.theme["gray-500"]};
+  }
 `;
 
 export const TaskInput = styled(BaseInput)`
@@ -106,4 +108,10 @@ export const TaskInput = styled(BaseInput)`
 
 export const MinutesAmountInput = styled(BaseInput)`
   width: 4rem;
+`;
+
+export const MessageError = styled.span`
+  padding: 1rem;
+  color: ${(props) => props.theme["red-300"]};
+  text-align: center;
 `;
