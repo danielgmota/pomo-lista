@@ -68,13 +68,13 @@ export const StartCoundownButton = styled.button`
   background-color: ${(props) => props.theme["green-500"]};
   color: ${(props) => props.theme["gray-100"]};
 
-  &:hover {
-    background-color: ${(props) => props.theme["green-700"]};
-  }
-
-  &:not(disable):disabled {
+  &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background-color: ${(props) => props.theme["green-700"]};
   }
 `;
 
