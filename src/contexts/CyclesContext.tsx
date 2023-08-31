@@ -13,6 +13,7 @@ import {
   markCurrentCycleAsFinishedAction,
 } from "../reducers/cycles/actions";
 import { differenceInSeconds } from "date-fns";
+import { getStorageTextToSave } from "../global/storage-name";
 
 interface CreateCycleDate {
   task: string;
@@ -36,8 +37,6 @@ interface ICyclesContextProviderProps {
   children: ReactNode;
 }
 
-const STORAGE_NAME = "@vite-timer:cycles-state-1.0.0";
-
 export function CyclesContextProvider({
   children,
 }: ICyclesContextProviderProps) {
@@ -48,7 +47,9 @@ export function CyclesContextProvider({
       activeCycleId: null,
     },
     (initialState) => {
-      const storedStateAsJSON = localStorage.getItem(STORAGE_NAME);
+      const storedStateAsJSON = localStorage.getItem(
+        getStorageTextToSave("cycles")
+      );
       if (storedStateAsJSON) return JSON.parse(storedStateAsJSON);
       return initialState;
     }
@@ -66,7 +67,7 @@ export function CyclesContextProvider({
 
   useEffect(() => {
     const stateJSON = JSON.stringify(cyclesState);
-    localStorage.setItem(STORAGE_NAME, stateJSON);
+    localStorage.setItem(getStorageTextToSave("cycles"), stateJSON);
   }, [cyclesState]);
 
   function markCurrentCycleAsFinished() {
