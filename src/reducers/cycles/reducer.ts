@@ -31,7 +31,7 @@ export function cyclesReducer(state: ICycleState, action: ActionTypesProps) {
       if (currentCycleIndex < 0) return state;
 
       return produce(state, (draft) => {
-        draft.cycles[currentCycleIndex].startDate = new Date();
+        draft.cycles[currentCycleIndex].interruptedDate = new Date();
         draft.activeCycleId = null;
       });
     }
