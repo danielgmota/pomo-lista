@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useState, useReducer } from "react";
+import {
+  ReactNode,
+  createContext,
+  useState,
+  useReducer,
+  useEffect,
+} from "react";
 import { cyclesReducer } from "../reducers/cycles/reducer";
 import { ICycle } from "../reducers/cycles/reducer";
 import {
@@ -6,6 +12,7 @@ import {
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
 } from "../reducers/cycles/actions";
+import { differenceInSeconds } from "date-fns";
 
 interface CreateCycleDate {
   task: string;
@@ -29,17 +36,38 @@ interface ICyclesContextProviderProps {
   children: ReactNode;
 }
 
+const STORAGE_NAME = "@vite-timer:cycles-state-1.0.0";
+
 export function CyclesContextProvider({
   children,
 }: ICyclesContextProviderProps) {
-  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
-    cycles: [],
-    activeCycleId: null,
-  });
-  const [amountSecoundsPassed, setAmountSecoundsPassed] = useState<number>(0);
-
+  const [cyclesState, dispatch] = useReducer(
+    cyclesReducer,
+    {
+      cycles: [],
+      activeCycleId: null,
+    },
+    (initialState) => {
+      const storedStateAsJSON = localStorage.getItem(STORAGE_NAME);
+      if (storedStateAsJSON) return JSON.parse(storedStateAsJSON);
+      return initialState;
+    }
+  );
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
+  const [amountSecoundsPassed, setAmountSecoundsPassed] = useState<number>(
+    () => {
+      if (activeCycle)
+        return differenceInSeconds(new Date(), new Date(activeCycle.startDate));
+
+      return 0;
+    }
+  );
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(cyclesState);
+    localStorage.setItem(STORAGE_NAME, stateJSON);
+  }, [cyclesState]);
 
   function markCurrentCycleAsFinished() {
     dispatch(markCurrentCycleAsFinishedAction());

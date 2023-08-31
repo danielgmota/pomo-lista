@@ -21,31 +21,33 @@ export function History() {
             </tr>
           </thead>
           <tbody>
-            {cycles.map((cycle) => {
-              return (
-                <tr key={cycle.id}>
-                  <td>{cycle.task}</td>
-                  <td>{cycle.minutesAmount} minutos</td>
-                  <td>
-                    {formatDistanceToNow(cycle.startDate, {
-                      addSuffix: true,
-                      locale: ptBR,
-                    })}
-                  </td>
-                  <td>
-                    {cycle.finishedDate && (
-                      <Tag status="success">Concluído</Tag>
-                    )}
-                    {cycle.interruptedDate && (
-                      <Tag status="failed">Interrompido</Tag>
-                    )}
-                    {!cycle.finishedDate && !cycle.interruptedDate && (
-                      <Tag status="pending">Em andamento</Tag>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+            {cycles
+              .sort((a, b) => Number(b.id) - Number(a.id))
+              .map((cycle) => {
+                return (
+                  <tr key={cycle.id}>
+                    <td>{cycle.task}</td>
+                    <td>{cycle.minutesAmount} minutos</td>
+                    <td>
+                      {formatDistanceToNow(new Date(cycle.startDate), {
+                        addSuffix: true,
+                        locale: ptBR,
+                      })}
+                    </td>
+                    <td>
+                      {cycle.finishedDate && (
+                        <Tag status="success">Concluído</Tag>
+                      )}
+                      {cycle.interruptedDate && (
+                        <Tag status="failed">Interrompido</Tag>
+                      )}
+                      {!cycle.finishedDate && !cycle.interruptedDate && (
+                        <Tag status="pending">Em andamento</Tag>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </HistoryList>
