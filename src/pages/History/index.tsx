@@ -22,6 +22,7 @@ export function History() {
           </thead>
           <tbody>
             {cycles
+              .slice()
               .sort((a, b) => Number(b.id) - Number(a.id))
               .map((cycle) => {
                 return (
