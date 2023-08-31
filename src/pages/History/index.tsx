@@ -1,6 +1,12 @@
+import { useContext } from "react";
 import { HistoryContainer, HistoryList, Tag } from "./styles";
+import { CyclesContext } from "../../contexts/CyclesContext";
+import { formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 
 export function History() {
+  const { cycles } = useContext(CyclesContext);
+
   return (
     <HistoryContainer>
       <h1>History</h1>
@@ -15,30 +21,31 @@ export function History() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>2 meses</td>
-              <td>
-                <Tag status="pending">Em andamento</Tag>
-              </td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>2 meses</td>
-              <td>
-                <Tag status="success">Concluido</Tag>
-              </td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>2 meses</td>
-              <td>
-                <Tag status="failed">Não concluido</Tag>
-              </td>
-            </tr>
+            {cycles.map((cycle) => {
+              return (
+                <tr key={cycle.id}>
+                  <td>{cycle.task}</td>
+                  <td>{cycle.minutesAmount} minutos</td>
+                  <td>
+                    {formatDistanceToNow(cycle.startDate, {
+                      addSuffix: true,
+                      locale: ptBR,
+                    })}
+                  </td>
+                  <td>
+                    {cycle.finishedDate && (
+                      <Tag status="success">Concluído</Tag>
+                    )}
+                    {cycle.interruptedDate && (
+                      <Tag status="failed">Interrompido</Tag>
+                    )}
+                    {!cycle.finishedDate && !cycle.interruptedDate && (
+                      <Tag status="pending">Em andamento</Tag>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </HistoryList>
