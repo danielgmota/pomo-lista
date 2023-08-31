@@ -6,12 +6,12 @@ export enum ActionTypes {
   MARK_CURRENT_TYPE_AS_FINISHED = "MARK_CURRENT_TYPE_AS_FINISHED",
 }
 
+export type ActionTypesProps = { type: ActionTypes; payload?: ICycle };
+
 export function addNewCycleAction(newCycle: ICycle) {
   return {
     type: ActionTypes.ADD_NEW_CYCLE,
-    payload: {
-      newCycle,
-    },
+    payload: newCycle,
   };
 }
 

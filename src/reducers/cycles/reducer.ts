@@ -1,4 +1,4 @@
-import { ActionTypes } from "./actions";
+import { ActionTypes, ActionTypesProps } from "./actions";
 import { produce } from "immer";
 
 export interface ICycle {
@@ -15,13 +15,13 @@ interface ICycleState {
   activeCycleId: string | null;
 }
 
-export function cyclesReducer(state: ICycleState, action: any) {
+export function cyclesReducer(state: ICycleState, action: ActionTypesProps) {
   switch (action.type) {
     // USANDO IMMER
     case ActionTypes.ADD_NEW_CYCLE:
       return produce(state, (draft) => {
-        draft.cycles.push(action.payload.newCycle);
-        draft.activeCycleId = action.payload.newCycle.id;
+        draft.cycles.push(action.payload!);
+        draft.activeCycleId = action.payload!.id;
       });
     case ActionTypes.INTERRUPT_CURRENT_CYCLE: {
       const currentCycleIndex = state.cycles.findIndex(
