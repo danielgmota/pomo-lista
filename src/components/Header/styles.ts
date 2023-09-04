@@ -27,4 +27,27 @@ export const HeaderContainer = styled.header`
       color: ${(props) => props.theme["green-500"]};
     }
   }
+
+  div:first-child {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+
+    h1 {
+      margin: 0;
+    }
+  }
+`;
+
+export const SiteTitle = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${(props) => props.theme["red-300"]};
+
+  span {
+    font-weight: 100;
+    color: ${(props) => props.theme["green-300"]};
+  }
 `;

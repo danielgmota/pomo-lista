@@ -1,4 +1,4 @@
-import { HeaderContainer } from "./styles";
+import { HeaderContainer, SiteTitle } from "./styles";
 import logo from "../../assets/pomolista.png";
 import { Scroll, Timer } from "phosphor-react";
 import { NavLink } from "react-router-dom";
@@ -6,7 +6,12 @@ import { NavLink } from "react-router-dom";
 export function Header() {
   return (
     <HeaderContainer>
-      <img src={logo} alt="PomoLista" style={{ width: 50 }} />
+      <div>
+        <img src={logo} alt="PomoLista" style={{ width: 50 }} />
+        <SiteTitle>
+          Pomo<span>Lista</span>
+        </SiteTitle>
+      </div>
       <nav>
         <NavLink to="/" title="Timer">
           <Timer size={24} />
