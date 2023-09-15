@@ -9,6 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "./node_modules/.bin/gh-pages -d dist",
     "preinstall": "npx only-allow pnpm"
   },
